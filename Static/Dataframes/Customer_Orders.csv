@@ -1,0 +1,2 @@
+Order_ID,Order_Date,Customer_Name,Order_Balance_without_tax,Downpayment_Balance,Order_Delivered,Final_Order_Balance_with_tax,Revenue_Check,Payment_Received,Check#,Bank_Deposit,Verification
+123456789,19-07-2018,Stephen Lu,"25,000.00","7,500.00",Yes,"29,900.00","22,400.00",Yes,987654321,No,No

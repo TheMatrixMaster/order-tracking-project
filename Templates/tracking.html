@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<style>
+
+div.a {
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+  overflow: hidden;
+  margin: 0;
+  width: 100%;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+</style>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+</head>
+
+<body>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="home">MyTrack</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="tracking">Current Orders <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Past Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">All Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My Account</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<header/>
+
+<content class="table table-striped" id='myTable'>
+  <font size="2">
+    <table  id='orders'>
+      <thead contenteditable="false">
+        <tr>
+          <th scope='col'><div class='a'>Order ID</div></th>
+          <th scope='col'><div class='a'>Order Date</div></th>
+          <th scope='col'><div class='a'>Customer Name</div></th>
+          <th scope='col'><div class='a'>Order Balance</div></th>
+          <th scope='col'><div class='a'>Downpayment</div></th>
+          <th scope='col'><div class='a'>Order Delivered</th>
+          <th scope='col'><div class='a'>Delivery Date</div></th>
+          <th scope='col'><div class='a'>Final Order Balance</div></th>
+          <th scope='col'><div class='a'>Revenue Check</div></th>
+          <th scope='col'><div class='a'>Payment Received</div></th>
+          <th scope='col'><div class='a'>Receival Date</div></th>
+          <th scope='col'><div class='a'>Check#</div></th>
+          <th scope='col'><div class='a'>Bank Deposit</div></th>
+          <th scope='col'><div class='a'>Deposit Date</div></th>
+          <th scope='col'><div class='a'>Verification</div></th>
+          <th scope='col'><div class='a'>Verification Date</div></th>
+        </tr>
+      </thead>
+      <tbody id="screen">
+        <tr>
+        </tr>
+    </tbody>
+    </table>
+  </font>
+
+  <div>
+    <button id="del">Clear</button>
+  </div>
+  <div>
+    <button id='editButton' onclick="editTable()">Edit</button>
+  </div>
+  <div>
+    <button style="display: none;" id="saveButton" onclick="saveTable()">Save</button>
+  </div>
+
+</content>
+
+<br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+var table = document.getElementById("orders");
+if(localStorage.tableData==undefined){localStorage.tableData=table.innerHTML};
+table.innerHTML = localStorage.tableData;
+
+function addRow(){
+var row = table.insertRow(-1);
+var length = table.rows.length;
+console.log(length)
+var new_id = "row " + length.toString();
+console.log(new_id)
+row.setAttribute('id', new_id);
+var Order_ID = row.insertCell(0);
+var Order_Date = row.insertCell(1);
+var Customer_Name = row.insertCell(2);
+var Order_Balance_without_tax = row.insertCell(3);
+var Downpayment_Balance = row.insertCell(4);
+var Order_Delivered = row.insertCell(5);
+var Delivery_Date = row.insertCell(6);
+var Final_Order_Balance_with_tax = row.insertCell(7);
+var Revenue_Check = row.insertCell(8);
+var Payment_Received = row.insertCell(9);
+var Receival_Date = row.insertCell(10);
+var Check = row.insertCell(11);
+var Bank_Deposit = row.insertCell(12);
+var Deposit_Date = row.insertCell(13);
+var Verification = row.insertCell(14);
+var Verification_Date = row.insertCell(15);
+
+Order_ID.innerHTML = '{{ID}}';
+Order_Date.innerHTML = '{{OrderDate}}';
+Customer_Name.innerHTML = '{{CustomerName}}';
+Order_Balance_without_tax.innerHTML = '{{OrderBalance}}';
+Downpayment_Balance.innerHTML = '{{Downpayment}}';
+Order_Delivered.innerHTML = '{{Delivery}}';
+Delivery_Date.innerHTML = '{{DeliveryDate}}';
+Final_Order_Balance_with_tax.innerHTML = '{{FinalOrderBalance}}';
+Revenue_Check.innerHTML = '{{RCheck}}';
+Payment_Received.innerHTML = '{{PReceival}}';
+Receival_Date.innerHTML = '{{PaymentDate}}';
+Check.innerHTML = '{{CheckNum}}';
+Bank_Deposit.innerHTML = '{{Deposit}}';
+Deposit_Date.innerHTML = '{{DepositDate}}';
+Verification.innerHTML = '{{Ver}}';
+Verification_Date.innerHTML = '{{VerDate}}';
+
+localStorage.tableData=table.innerHTML;
+document.location.href = 'http://127.0.0.1:5000/tracking';
+  };
+
+  if ('{{key}}' === "Allow") {
+    addRow();
+  }
+
+
+  $(document).ready(function() {
+  var tid = "";
+  $('#orders tr').click(function(event) {
+    tid = $(this).attr('id');
+  });
+  $("#del").click(function() {
+    console.log(tid);
+    var row = document.getElementById(tid);
+    row.parentNode.removeChild(row);
+    localStorage.tableData = table.innerHTML;
+  });
+});
+
+
+  function editTable() {
+    table.contentEditable = true;
+    document.getElementById('editButton').style.display = "none";
+    document.getElementById('saveButton').style.display = "block";
+  }
+
+  function saveTable() {
+    table.contentEditable = false;
+    localStorage.tableData = table.innerHTML;
+    document.getElementById('saveButton').style.display = 'none';
+    document.getElementById('editButton').style.display = "block";
+  }
+
+</script>   
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
